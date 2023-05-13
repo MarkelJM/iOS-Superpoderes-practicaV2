@@ -14,7 +14,9 @@ struct HeroListView: View {
         NavigationView {
             List {
                 ForEach(viewModel.heroes) { hero in
-                    HeroRowView(hero: hero)
+                    NavigationLink(destination: SeriesListView(viewModel: SeriesViewModel(interactor: SeriesInteractor(), hero: hero))) {
+                        HeroRowView(hero: hero)
+                    }
                 }
             }
             .navigationTitle("Héroes")
@@ -28,3 +30,4 @@ struct HeroListView_Previews: PreviewProvider {
             .environmentObject(HeroesViewModel())
     }
 }
+
