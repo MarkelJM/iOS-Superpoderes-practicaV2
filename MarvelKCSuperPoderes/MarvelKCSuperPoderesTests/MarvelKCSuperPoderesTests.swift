@@ -5,9 +5,11 @@
 //  Created by Markel Juaristi on 25/3/23.
 //
 
+
+
 import XCTest
-@testable import MarvelKCSuperPoderes
 import Combine
+@testable import MarvelKCSuperPoderes
 
 final class MarvelKCSuperPoderesTests: XCTestCase {
     
@@ -33,16 +35,79 @@ final class MarvelKCSuperPoderesTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
-    ///TEST
-    func testHeroesModelWithSampleData() {
-        let sampleData = Hero(id: 1, name: "TestHero", description: "TestDescription", thumbnail: HeroeThumbnail(path: "testPath", thumbnailExtension: "testExtension"))
+    func testHeroModel() {
+        let thumbnail = HeroeThumbnail(path: "testPath", thumbnailExtension: "testExtension")
+        let hero = Hero(id: 1, name: "TestHero", description: "TestDescription", thumbnail: thumbnail)
         
-        XCTAssertEqual(sampleData.id, 1)
-        XCTAssertEqual(sampleData.name, "TestHero")
-        XCTAssertEqual(sampleData.description, "TestDescription")
-        XCTAssertEqual(sampleData.thumbnail.path, "testPath")
-        XCTAssertEqual(sampleData.thumbnail.thumbnailExtension, "testExtension")
+        XCTAssertEqual(hero.id, 1)
+        XCTAssertEqual(hero.name, "TestHero")
+        XCTAssertEqual(hero.description, "TestDescription")
+        XCTAssertEqual(hero.thumbnail.path, "testPath")
+        XCTAssertEqual(hero.thumbnail.thumbnailExtension, "testExtension")
     }
 
+    func testSerieModel() {
+        let thumbnail = SerieThumbnail(path: "testPath", thumbnailExtension: "testExtension")
+        let serie = Serie(id: 1, title: "TestSeries", description: "TestDescription", thumbnail: thumbnail)
+        
+        XCTAssertEqual(serie.id, 1)
+        XCTAssertEqual(serie.title, "TestSeries")
+        XCTAssertEqual(serie.description, "TestDescription")
+        XCTAssertEqual(serie.thumbnail.path, "testPath")
+        XCTAssertEqual(serie.thumbnail.thumbnailExtension, "testExtension")
+    }
+    
+    func testHeroesViewModel() {
+        let heroesViewModel = HeroesViewModel(interactor: TestHeroesInteractor())
+        heroesViewModel.loadSampleData()
 
+        XCTAssertEqual(heroesViewModel.heroes.count, 1)
+        XCTAssertEqual(heroesViewModel.heroes[0].id, 1)
+        XCTAssertEqual(heroesViewModel.heroes[0].name, "TestHero")
+        XCTAssertEqual(heroesViewModel.heroes[0].description, "TestDescription")
+        XCTAssertEqual(heroesViewModel.heroes[0].thumbnail.path, "testPath")
+        XCTAssertEqual(heroesViewModel.heroes[0].thumbnail.thumbnailExtension, "testExtension")
+    }
+
+    func testSeriesViewModel() {
+        let thumbnail = HeroeThumbnail(path: "testPath", thumbnailExtension: "testExtension")
+        let hero = Hero(id: 1, name: "TestHero", description: "TestDescription", thumbnail: thumbnail)
+        let seriesViewModel = SeriesViewModel(interactor: TestSeriesInteractor(), hero: hero)
+        seriesViewModel.loadSampleData()
+        
+
+        XCTAssertEqual(seriesViewModel.series.count, 1)
+        XCTAssertEqual(seriesViewModel.series[0].id, 1)
+        XCTAssertEqual(seriesViewModel.series[0].title, "TestSeries")
+        XCTAssertEqual(seriesViewModel.series[0].description, "TestDescription")
+        XCTAssertEqual(seriesViewModel.series[0].thumbnail.path, "testPath")
+        XCTAssertEqual(seriesViewModel.series[0].thumbnail.thumbnailExtension, "testExtension")
+    }
 }
+
+class TestHeroesInteractor: HeroesInteractorProtocol {
+    func getHeroes(filter: String) -> AnyPublisher<[Hero], Error> {
+        let thumbnail = HeroeThumbnail(path: "testPath", thumbnailExtension: "testExtension")
+        let hero = Hero(id: 1, name: "TestHero", description: "TestDescription", thumbnail: thumbnail)
+        return Just([hero])
+            .setFailureType(to: Error.self)
+            .eraseToAnyPublisher()
+    }
+}
+
+class TestSeriesInteractor: SeriesInteractorProtocol {
+    func getSeries(for hero: Hero, limit: Int) -> AnyPublisher<[Serie], Error> {
+        let thumbnail = SerieThumbnail(path: "testPath", thumbnailExtension: "testExtension")
+        let serie = Serie(id: 1, title: "TestSeries", description: "TestDescription", thumbnail: thumbnail)
+        return Just([serie])
+            .setFailureType(to: Error.self)
+            .eraseToAnyPublisher()
+    }
+}
+
+
+
+
+
+
+

@@ -35,4 +35,12 @@ class SeriesViewModel: ObservableObject {
             })
             .store(in: &cancellables)
     }
+    
+    // Función para cargar datos de muestra para el test
+    func loadSampleData() {
+        let thumbnail = SerieThumbnail(path: "testPath", thumbnailExtension: "testExtension")
+        let sampleSeries = Serie(id: 1, title: "TestSeries", description: "TestDescription", thumbnail: thumbnail)
+        
+        self.series = [sampleSeries]
+    }
 }
