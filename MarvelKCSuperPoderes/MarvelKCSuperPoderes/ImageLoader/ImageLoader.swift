@@ -8,7 +8,7 @@
 import Combine
 import SwiftUI
 
-// ImageLoader es una clase que puede avisar cuando cambian cosas. En este caso, nos va a avisar cuando se carga una imagen. PD las series tardan demasiado.
+// ImageLoader es una clase que puede avisar cuando cambian cosas. En este caso, nos va a avisar cuando se carga una imagen. PD y Nota para Jose las series tardan demasiado o eso me parece.
 class ImageLoader: ObservableObject {
     // La imagen que vamos a cargar. Cuando la imagen cambie, va a avisar a todo el que esté escuchando.
     @Published var image: UIImage?
@@ -30,7 +30,7 @@ class ImageLoader: ObservableObject {
             .sink { [weak self] in self?.image = $0 }
     }
 
-    // Esta función se usa para parar la descarga de la imagen si no hace falta.
+    // Esta función se usa para parar la descarga de la imagen si no hace falta. Lo añado por si acaso, sin mas.
     func cancel() {
         cancellable?.cancel()
     }

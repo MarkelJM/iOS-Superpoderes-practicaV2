@@ -20,6 +20,7 @@ struct HeroListView: View {
                 }
             }
             .navigationTitle("Héroes")
+            
         }
     }
 }

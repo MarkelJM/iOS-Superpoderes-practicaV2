@@ -25,6 +25,7 @@ struct HeroRowView: View {
                         .frame(width: 100, height: 100)
                 } else {
                     // Si la imagen aún no se ha cargado, muestra una vista de carga
+                    /* FYI Jose: si la ruta no incluye una barra al final, la URL resultante no será válida, debido a que al traer la imagen nosotros indicamos path*/
                     ProgressView()
                 }
             } else {
@@ -40,6 +41,7 @@ struct HeroRowView: View {
             Text(hero.name)
                 .font(.title2)
                 .padding(.leading)
+            
             
             Spacer()
         }
